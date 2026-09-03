@@ -1,0 +1,16 @@
+FROM node:20-alpine AS development
+
+WORKDIR /app
+
+# Copy and ensure correct permissions
+COPY package.json package-lock.json /app/
+
+RUN chmod 644 /app/package.json /app/package-lock.json
+
+RUN npm ci
+
+COPY . .
+
+EXPOSE ${PORT}
+
+CMD ["npm", "run" , "dev"]

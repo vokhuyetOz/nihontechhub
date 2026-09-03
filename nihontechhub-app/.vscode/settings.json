@@ -1,0 +1,13 @@
+{
+  "java.compile.nullAnalysis.mode": "automatic",
+  "sonarlint.output.showAnalyzerLogs": true,
+  "sonarlint.analyzerProperties": {
+    "sonar.javascript.node.maxspace": "4096"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "eslint.format.enable": true,
+  "editor.formatOnSave": true
+}

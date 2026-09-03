@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "387337916612",
+    "project_id": "nihontechhub",
+    "storage_bucket": "nihontechhub.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:387337916612:android:f35f1608a7a13703437991",
+        "android_client_info": {
+          "package_name": "com.nihontechhub"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRKXC1kfdUzr0ceQD3HFY_2XlAjKdN0Ag"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

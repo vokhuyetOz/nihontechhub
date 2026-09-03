@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppTextAnimated should update the value when the text prop changes 1`] = `
+<View
+  style={
+    {
+      "alignItems": "center",
+      "flexDirection": "row",
+      "justifyContent": "center",
+    }
+  }
+>
+  <TextInput
+    animatedStyle={
+      {
+        "value": {},
+      }
+    }
+    collapsable={false}
+    editable={false}
+    handlerTag={1}
+    handlerType="NativeViewGestureHandler"
+    onGestureHandlerEvent={[Function]}
+    onGestureHandlerStateChange={[Function]}
+    style={
+      {
+        "color": "black",
+      }
+    }
+    testID="progress-text"
+    text="Initial Value"
+    underlineColorAndroid="transparent"
+    value="Initial Value"
+  />
+</View>
+`;

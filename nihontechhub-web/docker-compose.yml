@@ -1,0 +1,10 @@
+services:
+  nihontechhub-web:
+    container_name: nihontechhub-web
+    image: nihontechhub-web
+    restart: always
+
+networks:
+  default:
+    driver: bridge
+    name: nihontechhub-web

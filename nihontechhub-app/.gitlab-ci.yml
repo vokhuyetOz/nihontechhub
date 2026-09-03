@@ -1,0 +1,183 @@
+stages:
+  - Pre_build
+  - Build
+  - Staging
+
+variables:
+  LC_ALL: 'en_US.UTF-8'
+  LANG: 'en_US.UTF-8'
+  GIT_STRATEGY: clone
+  # APP_CENTER_LOGIN_TOKEN: set in project’s Settings > CI/CD and expand the Variables section
+
+default:
+  image: node
+
+before_script:
+  - set +e
+  - source "$HOME/.rvm/scripts/rvm"
+  - type cd && unset cd && type cd #https://gitlab.com/gitlab-org/gitlab-runner/-/issues/114#note_4399113
+  - export GEM_HOME="$HOME/.gem"
+  - which -a ruby
+  - ruby -v
+  - rvm use ruby-2.7.6 --install
+  - gem install bundler
+  - bundle install
+  - export PATH=$HOME/.yarn/bin:$PATH
+  - npx yarn
+
+lint_test:
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME || $CI_COMMIT_REF_NAME == $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+    - if: $CI_MERGE_REQUEST_CLOSED == 'true'
+      when: never
+  stage: Pre_build
+  script:
+    - npx yarn lint
+    - echo $CI_MERGE_REQUEST_CLOSED
+    - echo $CI_MERGE_REQUEST_APPROVED
+  tags:
+    - macos
+    - react-native
+
+sonarqube_check:
+  stage: Pre_build
+  before_script: []
+  dependencies:
+    - lint_test
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME || $CI_COMMIT_REF_NAME == $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+  image:
+    name: sonarsource/sonar-scanner-cli:5.0
+    entrypoint: ['']
+  variables:
+    SONAR_USER_HOME: '${CI_PROJECT_DIR}/.sonar' # Defines the location of the analysis task cache
+    GIT_DEPTH: '0' # Tells git to fetch all the branches of the project, required by the analysis task
+    CI_DEBUG_TRACE: 'true'
+
+  cache:
+    key: '${CI_JOB_NAME}'
+    paths:
+      - .sonar/cache
+  script:
+    - pwd
+    - echo $PATH
+    - sonar-scanner
+  tags:
+    - sonar
+
+sonarqube_vulnerability_report:
+  stage: Pre_build
+  before_script: []
+  dependencies:
+    - sonarqube_check
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME || $CI_COMMIT_REF_NAME == $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+  script:
+    - 'curl -u "${SONAR_TOKEN}:" "${SONAR_HOST_URL}/api/issues/gitlab_sast_export?projectKey=mobile_react-native_base_AYqHu7WBiUopT_PhOKji&branch=${CI_COMMIT_BRANCH}&pullRequest=${CI_MERGE_REQUEST_IID}" -o gl-sast-sonar-report.json'
+  allow_failure: true
+  artifacts:
+    expire_in: 1 day
+    reports:
+      sast: gl-sast-sonar-report.json
+  tags:
+    - sonar
+
+unit_test:
+  dependencies:
+    - lint_test
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME || $CI_COMMIT_REF_NAME == $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+  stage: Pre_build
+  script:
+    - npx yarn unit-test
+  needs: [lint_test]
+  tags:
+    - macos
+    - react-native
+
+integration_test:
+  dependencies:
+    - unit_test
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME || $CI_COMMIT_REF_NAME == $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+  stage: Pre_build
+  script:
+    - npx yarn integration-test
+  needs: [unit_test]
+  tags:
+    - macos
+    - react-native
+
+test_flight_build:
+  dependencies:
+    - integration_test
+  stage: Build
+  rules:
+    - if: $CI_COMMIT_TAG =~ /(test_flight_build)/   || $CI_COMMIT_BRANCH =~ /(test_flight_build)/
+  artifacts:
+    paths:
+      - fastlane/screenshots
+      - fastlane/logs
+  script:
+    - npx pod-install --repo-update
+    - cd "$CI_PROJECT_DIR/ios"
+    - bundle exec fastlane upload_testflight
+    - cd ..
+  tags:
+    - ios
+
+firebase_distribution_build:
+  dependencies:
+    - integration_test
+  rules:
+    - if: $CI_COMMIT_TAG =~ /(firebase_distribution_build)/ || $CI_COMMIT_BRANCH =~ /(firebase_distribution_build)/
+  stage: Build
+  artifacts:
+    paths:
+      - fastlane/screenshots
+      - fastlane/logs
+  script:
+    - cd "$CI_PROJECT_DIR/android"
+    - bundle exec fastlane firebase_distribution
+  tags:
+    - android
+    - sonar-mac
+
+code_push_android_build:
+  dependencies:
+    - integration_test
+  stage: Build
+  rules:
+    - if: $CI_COMMIT_TAG =~ /(code_push_android)/ || $CI_COMMIT_BRANCH =~ /(code_push_android)/
+  when: always
+  artifacts:
+    paths:
+      - fastlane/screenshots
+      - fastlane/logs
+  script:
+    - cd "$CI_PROJECT_DIR/android"
+    - bundle exec fastlane code_push_android
+    - cd ..
+  tags:
+    - android
+
+code_push_ios_build:
+  dependencies:
+    - integration_test
+  stage: Build
+  rules:
+    - if: $CI_COMMIT_TAG =~ /(code_push_ios)/ || $CI_COMMIT_BRANCH =~ /(code_push_ios)/
+  variables:
+    version: $CI_COMMIT_BRANCH ~ (?<=(ios-codepush-))[\d.]+
+  artifacts:
+    paths:
+      - fastlane/screenshots
+      - fastlane/logs
+  script:
+    - echo $version
+    - npx pod-install --repo-update
+    - cd "$CI_PROJECT_DIR/ios"
+    - bundle exec fastlane code_push_ios
+    - cd ..
+  tags:
+    - ios

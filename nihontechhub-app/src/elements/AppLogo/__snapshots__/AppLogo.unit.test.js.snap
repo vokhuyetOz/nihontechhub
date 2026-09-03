@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppLogo should render correctly 1`] = `
+<Image
+  resizeMode="contain"
+  source={
+    {
+      "testUri": "../../../src/utils/images/app_logo.png",
+    }
+  }
+  style={
+    [
+      {
+        "borderRadius": 3.75,
+        "height": 75,
+        "width": 75,
+      },
+      {
+        "margin": 32,
+      },
+    ]
+  }
+/>
+`;

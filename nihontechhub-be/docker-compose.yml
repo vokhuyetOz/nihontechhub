@@ -1,0 +1,21 @@
+services:
+  api:
+    container_name: "${CONTAINER_NAME}-api"
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: .
+      target: production
+    ports:
+      - ${PORT}:${PORT}
+    environment:
+      - TZ=${TZ}
+    env_file:
+      - .env
+    networks:
+      - backend
+
+networks:
+  backend:
+    name: ${NET_WORKS}
+    external: true

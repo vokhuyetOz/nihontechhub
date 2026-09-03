@@ -1,0 +1,12 @@
+services:
+  nihontechhub-web:
+    build:
+      context: .
+      dockerfile: dockerfile.production
+    ports:
+      - ${PORT}:3000
+
+networks:
+  default:
+    driver: bridge
+    name: nihontechhub-web

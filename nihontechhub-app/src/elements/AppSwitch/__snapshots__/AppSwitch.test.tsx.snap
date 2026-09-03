@@ -1,0 +1,211 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppSwitch renders enabled AppSwitch correctly 1`] = `
+<View>
+  <View
+    style={
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "gap": 10,
+          "marginBottom": 32,
+        },
+        undefined,
+      ]
+    }
+  >
+    <RCTSwitch
+      accessibilityRole="switch"
+      disabled={false}
+      onChange={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      onTintColor="red"
+      style={
+        {
+          "height": 31,
+          "width": 51,
+        }
+      }
+      testID="switch0"
+      thumbTintColor="pink"
+      tintColor="black"
+      value={false}
+    />
+    <Text
+      style={
+        [
+          {
+            "color": undefined,
+            "fontSize": 27,
+          },
+          [
+            {
+              "color": "green",
+            },
+            undefined,
+          ],
+        ]
+      }
+    >
+      aaaaa
+    </Text>
+  </View>
+  <View
+    style={
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "gap": 10,
+          "marginBottom": 32,
+        },
+        undefined,
+      ]
+    }
+  >
+    <RCTSwitch
+      accessibilityRole="switch"
+      disabled={true}
+      onChange={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      onTintColor="red"
+      style={
+        {
+          "height": 31,
+          "width": 51,
+        }
+      }
+      testID="switch1"
+      thumbTintColor="pink"
+      tintColor="black"
+      value={false}
+    />
+    <Text
+      style={
+        [
+          {
+            "color": undefined,
+            "fontSize": 27,
+          },
+          [
+            {
+              "color": "#A3A3A3",
+            },
+            undefined,
+          ],
+        ]
+      }
+    >
+      ccccc
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`AppSwitch should render correctly 1`] = `
+<View>
+  <View
+    style={
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "gap": 10,
+          "marginBottom": 32,
+        },
+        undefined,
+      ]
+    }
+  >
+    <RCTSwitch
+      accessibilityRole="switch"
+      disabled={false}
+      onChange={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      onTintColor="red"
+      style={
+        {
+          "height": 31,
+          "width": 51,
+        }
+      }
+      testID="switch0"
+      thumbTintColor="pink"
+      tintColor="black"
+      value={false}
+    />
+    <Text
+      style={
+        [
+          {
+            "color": undefined,
+            "fontSize": 27,
+          },
+          [
+            {
+              "color": "green",
+            },
+            undefined,
+          ],
+        ]
+      }
+    >
+      aaaaa
+    </Text>
+  </View>
+  <View
+    style={
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "gap": 10,
+          "marginBottom": 32,
+        },
+        undefined,
+      ]
+    }
+  >
+    <RCTSwitch
+      accessibilityRole="switch"
+      disabled={true}
+      onChange={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      onTintColor="red"
+      style={
+        {
+          "height": 31,
+          "width": 51,
+        }
+      }
+      testID="switch1"
+      thumbTintColor="pink"
+      tintColor="black"
+      value={false}
+    />
+    <Text
+      style={
+        [
+          {
+            "color": undefined,
+            "fontSize": 27,
+          },
+          [
+            {
+              "color": "#A3A3A3",
+            },
+            undefined,
+          ],
+        ]
+      }
+    >
+      ccccc
+    </Text>
+  </View>
+</View>
+`;
