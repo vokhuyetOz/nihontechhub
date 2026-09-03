@@ -1,11 +1,14 @@
+import BreadcrumbJsonLd from '@/components/custom/app-seo/breadcrumb-jsonld';
 import NewsJsonLd from '@/components/custom/app-seo/news-jsonld';
 import { AppleTvBanner } from '@/components/features';
 import { TagSection } from '@/components/features/tag-section';
 import { Badge } from '@/components/ui/badge';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 import { NewsAPI, TNews } from '@/modules/api/news';
 import { QUERY_KEYS } from '@/modules/queries';
 import { dehydrate, HydrationBoundary, InfiniteData, QueryClient } from '@tanstack/react-query';
 import { Metadata } from 'next';
+import Link from 'next/link';
 
 export default async function TagPage({ params: noawait }: { params: Promise<{ tag: string }> }) {
   const params = await noawait;
@@ -31,6 +34,19 @@ export default async function TagPage({ params: noawait }: { params: Promise<{ t
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div className="mx-auto max-w-6xl">
+        <Breadcrumb className="mb-6">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href="/">Home</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{params.tag}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
         {/* Category Header */}
         <div className="mb-8">
           <div className="mb-4 flex items-center space-x-3">
@@ -48,6 +64,7 @@ export default async function TagPage({ params: noawait }: { params: Promise<{ t
         <TagSection data={{ value: params.tag }} />
       </div>
       <NewsJsonLd list={allPosts} />
+      <BreadcrumbJsonLd items={[{ name: 'Home', url: '/' }, { name: params.tag }]} />
     </HydrationBoundary>
   );
 }

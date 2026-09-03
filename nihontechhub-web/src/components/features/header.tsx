@@ -36,6 +36,7 @@ export function Header() {
     navigation = data.map((item) => ({ name: item.label, href: `/category/${item.value}` }));
     navigation.unshift({ name: 'Home', href: '/' });
   }
+  navigation = [...navigation, { name: Strings.navHighlights, href: '/highlight' }, { name: Strings.navEvents, href: '/event' }];
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4">

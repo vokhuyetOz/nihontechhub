@@ -1,11 +1,14 @@
+import BreadcrumbJsonLd from '@/components/custom/app-seo/breadcrumb-jsonld';
 import NewsJsonLd from '@/components/custom/app-seo/news-jsonld';
 import { CategorySection, AppleTvBanner } from '@/components/features';
 import { Badge } from '@/components/ui/badge';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 import { NewsAPI, TNews } from '@/modules/api/news';
 import { NewssourceAPI, TNewssource } from '@/modules/api/newssource';
 import { QUERY_KEYS } from '@/modules/queries';
 import { dehydrate, HydrationBoundary, InfiniteData, QueryClient } from '@tanstack/react-query';
 import { Metadata } from 'next';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 type PageProps = {
@@ -48,6 +51,19 @@ export default async function CategoryPage({ params: noawait }: PageProps) {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div className="mx-auto max-w-6xl">
+        <Breadcrumb className="mb-6">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href="/">Home</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{categoryName}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
         {/* Category Header */}
         <div className="mb-8">
           <div className="mb-4 flex items-center space-x-3">
@@ -65,6 +81,7 @@ export default async function CategoryPage({ params: noawait }: PageProps) {
         <CategorySection data={source} noHeader />
       </div>
       <NewsJsonLd list={allPosts} />
+      <BreadcrumbJsonLd items={[{ name: 'Home', url: '/' }, { name: categoryName }]} />
     </HydrationBoundary>
   );
 }

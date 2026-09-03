@@ -1,12 +1,15 @@
 import ArticleJsonLd from '@/components/custom/app-seo/article-jsonld';
+import BreadcrumbJsonLd from '@/components/custom/app-seo/breadcrumb-jsonld';
 import { OptimizedImage, AppleTvBanner } from '@/components/features';
 import { AppInstallBanner } from '@/components/features/app-install-banner';
 import { NihonSoftwareSection } from '@/components/features/nihon-software-section';
 import { Badge } from '@/components/ui/badge';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 // import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { NewsAPI, TNews } from '@/modules/api/news';
+import { NewssourceAPI } from '@/modules/api/newssource';
 import { getSupportedLanguage } from '@/modules/i18n';
 import { QUERY_KEYS } from '@/modules/queries';
 import { estimateReadTime, formatDate, isHTML } from '@/modules/utils';
@@ -47,6 +50,7 @@ export default async function ArticlePage({ params: noAwait }: { params: Promise
   if (!article) {
     return notFound();
   }
+  const source = article.source ? await NewssourceAPI.detail(article.source) : undefined;
 
   const appleTVKeywords = ['tv', 'apple', 'ios', 'iphone', 'ipad', 'macbook', 'macos'];
   const hasAppleTVKeyword = (text?: string | null) => (text ? appleTVKeywords.some((kw) => text.toLowerCase().includes(kw)) : false);
@@ -55,6 +59,25 @@ export default async function ArticlePage({ params: noAwait }: { params: Promise
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div className="mx-auto max-w-4xl">
+        <Breadcrumb className="mb-6">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href="/">Home</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href={`/category/${article.source}`}>{source?.label ?? article.source}</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem className="max-w-[240px] truncate sm:max-w-sm">
+              <BreadcrumbPage className="truncate">{article.title}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
         <article className="space-y-8">
           {/* Header */}
           <header className="space-y-6">
@@ -178,6 +201,9 @@ export default async function ArticlePage({ params: noAwait }: { params: Promise
         </div>
       </div>
       <ArticleJsonLd article={article} />
+      <BreadcrumbJsonLd
+        items={[{ name: 'Home', url: '/' }, { name: source?.label ?? article.source, url: `/category/${article.source}` }, { name: article.title }]}
+      />
     </HydrationBoundary>
   );
 }

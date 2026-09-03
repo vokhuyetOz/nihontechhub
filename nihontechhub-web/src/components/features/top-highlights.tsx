@@ -161,6 +161,21 @@ export function TopHighlights() {
                         </Badge>
                       ))}
                     </div>
+                    {highlight.articles && highlight.articles.length > 0 && (
+                      <div className="space-y-1">
+                        <p className="text-xs font-semibold text-muted-foreground">{Strings.sources}:</p>
+                        <ul className="space-y-1">
+                          {highlight.articles.map((article, idx) => (
+                            <li key={idx} className="text-xs">
+                              <a href={article.link} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline dark:text-blue-400">
+                                {article.title}
+                              </a>
+                              <span className="text-muted-foreground"> — {article.feed}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                   </CardContent>
                 </div>
               </div>

@@ -235,6 +235,21 @@ export function KeyTechEventsAll() {
                                 </Badge>
                               ))}
                             </div>
+                            {event.articles && event.articles.length > 0 && (
+                              <div className="mb-4 space-y-1">
+                                <p className="text-xs font-semibold text-muted-foreground">{Strings.sources}:</p>
+                                <ul className="space-y-1">
+                                  {event.articles.map((article, idx) => (
+                                    <li key={idx} className="text-xs">
+                                      <a href={article.link} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline dark:text-blue-400">
+                                        {article.title}
+                                      </a>
+                                      <span className="text-muted-foreground"> — {article.feed}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
                             {/* Enhanced footer */}
                             <div className="flex items-center justify-between border-t border-border pt-4">
                               <div className="flex items-center gap-3">

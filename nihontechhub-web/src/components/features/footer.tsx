@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { NewsAPI } from '@/modules/api/news';
 import { NewssourceAPI } from '@/modules/api/newssource';
 import { getSupportedLanguage } from '@/modules/i18n';
 import { Mail, X } from 'lucide-react';
@@ -19,7 +20,19 @@ export async function Footer() {
     categories.unshift({ name: Strings.home, href: '/' });
   }
 
-  const tags = ['AI', 'Machine Learning', 'IOS', 'ANDROID', 'GOOGLE'];
+  const fallbackTags = ['AI', 'Machine Learning', 'iOS', 'Android', 'Google'];
+  const recentPosts = await NewsAPI.recent();
+  const tagFrequency = new Map<string, number>();
+  recentPosts?.forEach((post) => {
+    post.tags?.forEach((tag) => {
+      tagFrequency.set(tag, (tagFrequency.get(tag) ?? 0) + 1);
+    });
+  });
+  const trendingTags = Array.from(tagFrequency.entries())
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 8)
+    .map(([tag]) => tag);
+  const tags = trendingTags.length > 0 ? trendingTags : fallbackTags;
 
   return (
     <footer className="border-t bg-muted/50">
@@ -118,11 +131,10 @@ export async function Footer() {
         <div className="mt-8 flex flex-col items-center justify-between border-t pt-8 md:flex-row">
           <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} NihonTechHub. All rights reserved.</p>
           <div className="mt-4 flex space-x-4 md:mt-0">
-            <Link
-              rel="noopener noreferrer"
-              href="https://mail.google.com/mail/?view=cm&fs=1&to=nihontechhub@gmail.com"
-              className="text-sm text-muted-foreground hover:text-foreground"
-            >
+            <Link href="/about" className="text-sm text-muted-foreground hover:text-foreground">
+              {Strings.about}
+            </Link>
+            <Link href="/contact" className="text-sm text-muted-foreground hover:text-foreground">
               {Strings.contactUs}
             </Link>
             <Link href="/terms" className="text-sm text-muted-foreground hover:text-foreground">

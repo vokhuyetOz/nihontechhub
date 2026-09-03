@@ -41,6 +41,10 @@ export class SitemapService {
 
     // Route tĩnh
     smStream.write({ url: '/', changefreq: 'daily', priority: 1.0, lastmod: latestUpdatedAt });
+    smStream.write({ url: '/highlight', changefreq: 'daily', priority: 0.9, lastmod: latestUpdatedAt });
+    smStream.write({ url: '/event', changefreq: 'daily', priority: 0.8, lastmod: latestUpdatedAt });
+    smStream.write({ url: '/about', changefreq: 'monthly', priority: 0.3 });
+    smStream.write({ url: '/contact', changefreq: 'monthly', priority: 0.3 });
     // Route tĩnh
     sources.forEach((source) => {
       smStream.write({
@@ -48,6 +52,25 @@ export class SitemapService {
         changefreq: 'daily',
         priority: 1.0,
         lastmod: latestUpdatedAtBySource[source.value],
+      });
+    });
+
+    // Tag hubs — derived from post tags, using the same lowercase-hyphen format the frontend links with
+    const latestUpdatedAtByTag: Record<string, Date> = {};
+    posts.forEach((post) => {
+      (post.tags ?? []).forEach((tag) => {
+        const updatedAt = new Date(post.updatedAt);
+        if (!latestUpdatedAtByTag[tag] || updatedAt > latestUpdatedAtByTag[tag]) {
+          latestUpdatedAtByTag[tag] = updatedAt;
+        }
+      });
+    });
+    Object.keys(latestUpdatedAtByTag).forEach((tag) => {
+      smStream.write({
+        url: `/tag/${encodeURIComponent(tag.toLowerCase().replace(/\s+/g, '-'))}`,
+        changefreq: 'weekly',
+        priority: 0.6,
+        lastmod: latestUpdatedAtByTag[tag],
       });
     });
 
