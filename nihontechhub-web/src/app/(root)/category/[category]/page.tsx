@@ -10,10 +10,15 @@ import { dehydrate, HydrationBoundary, InfiniteData, QueryClient } from '@tansta
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { cache } from 'react';
 
 type PageProps = {
   params: Promise<{ category: string }>;
 };
+
+// Dedupes the NewssourceAPI.detail call between the page body and generateMetadata,
+// which Next.js otherwise invokes separately for the same request.
+const getSource = cache((category: string) => NewssourceAPI.detail(category));
 
 export default async function CategoryPage({ params: noawait }: PageProps) {
   const params = await noawait;
@@ -21,7 +26,7 @@ export default async function CategoryPage({ params: noawait }: PageProps) {
 
   await queryClient.prefetchQuery({
     queryKey: [QUERY_KEYS.NEWSSOURCE, params.category],
-    queryFn: () => NewssourceAPI.detail(params.category),
+    queryFn: () => getSource(params.category),
   });
 
   const source = queryClient.getQueryData<TNewssource>([QUERY_KEYS.NEWSSOURCE, params.category]);
@@ -91,7 +96,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const baseUrl = process.env.NEXT_PUBLIC_DOMAIN_URL ?? 'https://nihontechhub.com';
   const siteName = process.env.NEXT_PUBLIC_SITE_NAME ?? 'nihontechhub';
   const { category } = await params;
-  const source = await NewssourceAPI.detail(category);
+  const source = await getSource(category);
   const categoryLabel = source?.label ?? category;
 
   if (locale === 'Ja') {

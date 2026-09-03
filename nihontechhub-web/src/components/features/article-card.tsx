@@ -24,7 +24,6 @@ export function ArticleCard({ article }: ArticleCardProps) {
             src={article.imageUrl || '/placeholder.svg?height=224&width=400'}
             alt={article.imageCaption || article.title}
             fill
-            unoptimized
             className="aspect-[16/9] object-cover transition-transform duration-500 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
           />

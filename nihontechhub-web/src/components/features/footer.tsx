@@ -71,7 +71,7 @@ export async function Footer() {
             <ul className="space-y-2">
               {categories.map((category) => (
                 <li key={category.name}>
-                  <Link href={category.href} className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+                  <Link href={category.href} prefetch={false} className="text-sm text-muted-foreground transition-colors hover:text-foreground">
                     {category.name}
                   </Link>
                 </li>
@@ -84,7 +84,12 @@ export async function Footer() {
             <h3 className="text-lg font-semibold">{Strings.popularTags}</h3>
             <div className="flex flex-wrap gap-2">
               {tags.map((tag) => (
-                <Link key={tag} href={`/tag/${tag.toLowerCase().replace(' ', '-')}`} className="rounded-md bg-muted px-2 py-1 text-xs transition-colors hover:bg-muted/80">
+                <Link
+                  key={tag}
+                  href={`/tag/${tag.toLowerCase().replace(' ', '-')}`}
+                  prefetch={false}
+                  className="rounded-md bg-muted px-2 py-1 text-xs transition-colors hover:bg-muted/80"
+                >
                   {tag}
                 </Link>
               ))}

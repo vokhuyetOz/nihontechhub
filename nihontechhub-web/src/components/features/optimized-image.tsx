@@ -65,7 +65,6 @@ export function OptimizedImage({
         width={fill ? undefined : width}
         height={fill ? undefined : height}
         fill={fill}
-        unoptimized
         className={`transition-opacity duration-300 ${isLoading ? 'opacity-0' : 'opacity-100'} ${fill ? 'object-cover' : ''}`}
         onLoad={handleLoad}
         onError={handleError}

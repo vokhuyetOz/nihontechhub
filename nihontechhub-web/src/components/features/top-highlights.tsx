@@ -99,7 +99,14 @@ export function TopHighlights() {
               <div className="flex flex-col sm:flex-row">
                 {/* Image section - responsive sizing */}
                 <div className="relative h-48 w-full sm:h-32 sm:w-48 sm:shrink-0">
-                  <Image src={imageUrl || '/placeholder.svg'} alt={highlight.title} fill unoptimized className="object-cover" />
+                  <Image
+                    src={imageUrl || '/placeholder.svg'}
+                    alt={highlight.title}
+                    fill
+                    unoptimized
+                    sizes="(max-width: 640px) 100vw, 192px"
+                    className="object-cover"
+                  />
                   <div className="absolute left-3 top-3">
                     <Badge className="border-0 bg-blue-600/90 text-xs text-white backdrop-blur-sm">
                       <Zap className="mr-1 h-3 w-3" />

@@ -17,27 +17,26 @@ export default async function HomePage() {
   const locale = process.env.NEXT_PUBLIC_LANG ?? 'Ja';
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery({
-    queryKey: [QUERY_KEYS.NEWSSOURCE],
-    queryFn: NewssourceAPI.list,
-  });
-
-  await queryClient.prefetchQuery({
-    queryKey: [QUERY_KEYS.FEATURED_ARTICLE],
-    queryFn: NewsAPI.featured,
-  });
-
-  await queryClient.prefetchInfiniteQuery({
-    queryKey: [QUERY_KEYS.EVENT],
-    queryFn: ({ pageParam }) => EventAPI.list({ page: pageParam }),
-    initialPageParam: 1,
-  });
-
-  await queryClient.prefetchInfiniteQuery({
-    queryKey: [QUERY_KEYS.HIGHLIGHT],
-    queryFn: ({ pageParam }) => HighlightAPI.list({ page: pageParam }),
-    initialPageParam: 1,
-  });
+  await Promise.allSettled([
+    queryClient.prefetchQuery({
+      queryKey: [QUERY_KEYS.NEWSSOURCE],
+      queryFn: NewssourceAPI.list,
+    }),
+    queryClient.prefetchQuery({
+      queryKey: [QUERY_KEYS.FEATURED_ARTICLE],
+      queryFn: NewsAPI.featured,
+    }),
+    queryClient.prefetchInfiniteQuery({
+      queryKey: [QUERY_KEYS.EVENT],
+      queryFn: ({ pageParam }) => EventAPI.list({ page: pageParam }),
+      initialPageParam: 1,
+    }),
+    queryClient.prefetchInfiniteQuery({
+      queryKey: [QUERY_KEYS.HIGHLIGHT],
+      queryFn: ({ pageParam }) => HighlightAPI.list({ page: pageParam }),
+      initialPageParam: 1,
+    }),
+  ]);
 
   const sources = queryClient.getQueryData<TNewssource[]>([QUERY_KEYS.NEWSSOURCE]);
   // await queryClient.prefetchInfiniteQuery({

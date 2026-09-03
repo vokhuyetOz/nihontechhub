@@ -23,8 +23,13 @@ import {
 import { marked } from 'marked';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { cache } from 'react';
 
 import { PostRelate } from './components/post-relate';
+
+// Dedupes the NewsAPI.detail call between the page body and generateMetadata,
+// which Next.js otherwise invokes separately for the same request.
+const getArticle = cache((slug: string) => NewsAPI.detail({ slug }));
 
 function ArticleContent({ content }: Readonly<{ content: string }>) {
   if (!content) {
@@ -42,7 +47,7 @@ export default async function ArticlePage({ params: noAwait }: { params: Promise
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: [QUERY_KEYS.POSTS, params.slug],
-    queryFn: () => NewsAPI.detail({ slug: params.slug }),
+    queryFn: () => getArticle(params.slug),
   });
   const Strings = getSupportedLanguage();
 
@@ -163,14 +168,14 @@ export default async function ArticlePage({ params: noAwait }: { params: Promise
           {/* Tags */}
           <div className="flex flex-wrap gap-2 pt-8">
             {article.tags?.map((tag) => (
-              <Link key={tag} href={`/tag/${tag.toLowerCase().replace(' ', '-')}`}>
+              <Link key={tag} href={`/tag/${tag.toLowerCase().replace(' ', '-')}`} prefetch={false}>
                 <Badge variant="outline" className="transition-all duration-300 hover:border-primary/50 hover:bg-primary/5 hover:text-primary">
                   #{tag}
                 </Badge>
               </Link>
             ))}
             {article.keywords?.map((tag) => (
-              <Link key={tag} href={`/tag/${tag.toLowerCase().replace(' ', '-')}`}>
+              <Link key={tag} href={`/tag/${tag.toLowerCase().replace(' ', '-')}`} prefetch={false}>
                 <Badge variant="outline" className="transition-all duration-300 hover:border-primary/50 hover:bg-primary/5 hover:text-primary">
                   #{tag}
                 </Badge>
@@ -210,7 +215,7 @@ export default async function ArticlePage({ params: noAwait }: { params: Promise
 
 export async function generateMetadata({ params: noAwait }: { params: Promise<{ slug: string }> }) {
   const params = await noAwait;
-  const article = await NewsAPI.detail({ slug: params.slug });
+  const article = await getArticle(params.slug);
   const baseUrl = process.env.NEXT_PUBLIC_DOMAIN_URL ?? 'https://nihontechhub.com';
 
   if (!article) {
