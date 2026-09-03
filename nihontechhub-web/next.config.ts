@@ -5,19 +5,10 @@ const nextConfig: NextConfig = {
   output: 'standalone',
   devIndicators: false,
   images: {
-    // Hero/avatar/card images are scraped from these source outlets (see ESource in nihontechhub-be).
-    // Highlight-section images are excluded from optimization instead (unbounded, aggregated from many outlets) —
-    // see the `unoptimized` prop on the <Image> calls in top-highlights.tsx / top-highlights-all.tsx.
-    remotePatterns: [
-      { protocol: 'https', hostname: 'techcrunch.com' },
-      { protocol: 'https', hostname: '**.techcrunch.com' },
-      { protocol: 'https', hostname: '9to5mac.com' },
-      { protocol: 'https', hostname: '**.9to5mac.com' },
-      { protocol: 'https', hostname: '9to5google.com' },
-      { protocol: 'https', hostname: '**.9to5google.com' },
-      { protocol: 'https', hostname: 'bestlist.ai' },
-      { protocol: 'https', hostname: '**.bestlist.ai' },
-    ],
+    // All hero/avatar/card/highlight images are scraped from an unbounded set of source outlets
+    // (see ESource in nihontechhub-be), so they're rendered with the `unoptimized` prop instead of
+    // going through next/image's optimizer + remote-host allowlist — see optimized-image.tsx,
+    // article-card.tsx, sidebar-trending.tsx, top-highlights.tsx, top-highlights-all.tsx.
   },
   async headers() {
     return [

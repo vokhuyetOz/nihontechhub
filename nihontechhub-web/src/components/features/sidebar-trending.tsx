@@ -45,6 +45,7 @@ export function SidebarTrending() {
                 alt={article.title}
                 width={48}
                 height={48}
+                unoptimized
                 className="rounded-lg object-cover transition-transform duration-300 group-hover/item:scale-105"
               />
             </div>
