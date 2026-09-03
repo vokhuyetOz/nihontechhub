@@ -25,6 +25,7 @@ const EN = {
     return `${x} Impact`;
   },
   AIAggregatedTechTimeline: 'AI Aggregated Tech Timeline',
+  AICuratedTechHighlights: 'AI-Curated Tech Highlights',
   viewAllEvents: 'View all events',
   AISynthesized: 'AI Synthesized',
   AIAggregatedFrom: 'AI-Aggregated from',

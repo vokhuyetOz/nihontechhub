@@ -133,13 +133,13 @@ Follow these rules:
    - 1 USD ≈ 155 JPY  
    - 1 EUR ≈ 165 JPY  
    (Round to the nearest hundred million yen or appropriate unit.)
-7. Make paragraph breaks clear and easy to read.
+7. Make paragraph breaks clear and easy to read. If the article covers multiple distinct sub-topics, or includes three or more concrete facts/figures, organize the body with short Markdown subheadings (##) and bullet points for those facts. For a short, single-topic item, plain paragraphs are enough — do not force headings or bullets onto it.
 8. Avoid casual or overly technical language.
 
 Also, generate:
 - title_ja: concise, SEO-optimized Japanese headline
 - summary_ja: 1–2 sentence objective meta description
-- article_ja: full article rewritten in NHK-style Japanese
+- article_ja: full article rewritten in NHK-style Japanese, formatted as Markdown (use ## subheadings and bullet points only where they genuinely aid readability, per rule 7 — otherwise plain paragraphs)
 - keywords_ja: 5–10 SEO-relevant keywords in Japanese
 - slug_ja: - Create a short, SEO-friendly slug in Japanese using kanji/kana, connected by hyphens. Avoid using romaji or punctuation. Example: メタ-AI-著作権-訴訟勝訴
 
@@ -180,15 +180,15 @@ Rules:
    - 1 EUR ≈ 165 JPY  
    - Round to the nearest hundred million yen or appropriate unit.  
    Example: 2.5 billion USD → 約3,8800億円.
-7. Make paragraph breaks clear and easy to read.
+7. This article synthesizes coverage from multiple sources — organize the body with short Markdown subheadings (##) marking each distinct sub-topic or timeline point, and present concrete facts, figures, or per-source details as bullet points. Use plain paragraphs only for short connecting text between them.
 8. Avoid casual or overly technical language. Write in a way that is understandable for a general Japanese audience interested in technology.
 9. The headline should be concise and emphasize the core technology aspect.
-10. The news body should reflect the full information of the English source. Do not shorten excessively. 
+10. The news body should reflect the full information of the English source. Do not shorten excessively.
     The Japanese text does not need to be exactly 200 words, but its length should reasonably match the English article length.
 
 Additionally, generate SEO metadata:
 - "title_ja": concise, SEO-optimized Japanese headline
-- "article_ja": full article rewritten in NHK-style Japanese
+- "article_ja": full article rewritten in NHK-style Japanese, formatted as Markdown with ## subheadings and bullet points for key facts drawn from each source
 - "keywords_ja": 5–10 SEO-relevant keywords in Japanese
 - "slug_ja": Create a short, SEO-friendly slug in Japanese using kanji/kana, connected by hyphens. Avoid romaji or punctuation. 
   Example: メタ-AI-著作権-訴訟勝訴

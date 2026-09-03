@@ -75,7 +75,7 @@ export function TopHighlights() {
           <Brain className="h-6 w-6 text-blue-600" />
         </div>
         <div className="flex items-center gap-2">
-          <h2 className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-2xl font-bold text-transparent">AI-Curated Tech Highlights</h2>
+          <h2 className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-2xl font-bold text-transparent">{Strings.AICuratedTechHighlights}</h2>
           <Sparkles className="h-5 w-5 animate-pulse text-blue-500" />
         </div>
       </div>
@@ -99,7 +99,7 @@ export function TopHighlights() {
               <div className="flex flex-col sm:flex-row">
                 {/* Image section - responsive sizing */}
                 <div className="relative h-48 w-full sm:h-32 sm:w-48 sm:shrink-0">
-                  <Image src={imageUrl || '/placeholder.svg'} alt={highlight.title} fill className="object-cover" />
+                  <Image src={imageUrl || '/placeholder.svg'} alt={highlight.title} fill unoptimized className="object-cover" />
                   <div className="absolute left-3 top-3">
                     <Badge className="border-0 bg-blue-600/90 text-xs text-white backdrop-blur-sm">
                       <Zap className="mr-1 h-3 w-3" />

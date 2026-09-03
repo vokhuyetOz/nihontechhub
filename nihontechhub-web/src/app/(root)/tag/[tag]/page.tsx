@@ -75,7 +75,7 @@ export async function generateMetadata({ params: noawait }: { params: Promise<{ 
   }
 
   return {
-    title: `${tag} News & Insights - TechSum`,
+    title: `${tag} News & Insights - ${siteName}`,
     description: `Latest ${tag} news, trends, and insights from the tech world.`,
     alternates: {
       canonical: `${baseUrl}/tag/${tag}`,

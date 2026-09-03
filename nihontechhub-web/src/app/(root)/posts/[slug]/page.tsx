@@ -1,3 +1,4 @@
+import ArticleJsonLd from '@/components/custom/app-seo/article-jsonld';
 import { OptimizedImage, AppleTvBanner } from '@/components/features';
 import { AppInstallBanner } from '@/components/features/app-install-banner';
 import { NihonSoftwareSection } from '@/components/features/nihon-software-section';
@@ -14,7 +15,9 @@ import {
   Calendar,
   //  Share2,
   Clock,
+  Sparkles,
 } from 'lucide-react';
+import { marked } from 'marked';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
@@ -28,9 +31,7 @@ function ArticleContent({ content }: Readonly<{ content: string }>) {
   if (html) {
     return <div className="h-full w-full" dangerouslySetInnerHTML={{ __html: content }} />;
   }
-  return `${content}`.split('\n\n').map((item, index) => {
-    return <p key={`${index}`}>{item}</p>;
-  });
+  return <div className="h-full w-full" dangerouslySetInnerHTML={{ __html: marked.parse(content, { async: false }) as string }} />;
 }
 
 export default async function ArticlePage({ params: noAwait }: { params: Promise<{ slug: string }> }) {
@@ -89,7 +90,7 @@ export default async function ArticlePage({ params: noAwait }: { params: Promise
             {/* Author and Share */}
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center space-x-4">
-                <OptimizedImage src={article.author?.avatar} alt={article.author?.name} width={64} height={64} className="rounded-full ring-2 ring-primary/20" />
+                <OptimizedImage src={article.author?.avatar} alt={article.author?.name || '著者'} width={64} height={64} className="rounded-full ring-2 ring-primary/20" />
                 <div>
                   <p className="text-lg font-semibold">{article.author?.name}</p>
                   <div className="flex items-center space-x-2 text-sm text-muted-foreground">
@@ -118,12 +119,18 @@ export default async function ArticlePage({ params: noAwait }: { params: Promise
 
           {/* Featured Image */}
           <div className="relative h-[400px] w-full overflow-hidden rounded-2xl shadow-2xl lg:h-[500px]">
-            <OptimizedImage src={article.imageUrl} alt={article.slug} fill priority quality={95} />
+            <OptimizedImage src={article.imageUrl} alt={article.imageCaption || article.title} fill priority quality={95} />
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
           </div>
 
           {/* Apple TV Banner - Only visible if keywords match */}
           {shouldShowAppleTVBanner && <AppleTvBanner className="w-full" />}
+
+          {/* AI disclosure */}
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <Sparkles className="h-4 w-4" />
+            <span>AI要約 — 複数の情報源を統合して作成しています</span>
+          </div>
 
           {/* Content */}
           <div className="prose prose-lg dark:prose-invert article-content max-w-none">
@@ -152,7 +159,7 @@ export default async function ArticlePage({ params: noAwait }: { params: Promise
           <Card className="border-0 bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm">
             <CardContent className="p-8">
               <div className="flex items-start space-x-6">
-                <OptimizedImage src={article.author?.avatar} alt={article.author?.name} width={80} height={80} className="rounded-full ring-2 ring-primary/20" />
+                <OptimizedImage src={article.author?.avatar} alt={article.author?.name || '著者'} width={80} height={80} className="rounded-full ring-2 ring-primary/20" />
                 <div className="flex-1">
                   <h3 className="mb-3 text-xl font-semibold">{article.author?.name}</h3>
                   <p className="leading-relaxed text-muted-foreground">{article.author?.bio}</p>
@@ -170,6 +177,7 @@ export default async function ArticlePage({ params: noAwait }: { params: Promise
           <AppInstallBanner />
         </div>
       </div>
+      <ArticleJsonLd article={article} />
     </HydrationBoundary>
   );
 }
@@ -177,6 +185,7 @@ export default async function ArticlePage({ params: noAwait }: { params: Promise
 export async function generateMetadata({ params: noAwait }: { params: Promise<{ slug: string }> }) {
   const params = await noAwait;
   const article = await NewsAPI.detail({ slug: params.slug });
+  const baseUrl = process.env.NEXT_PUBLIC_DOMAIN_URL ?? 'https://nihontechhub.com';
 
   if (!article) {
     return {
@@ -187,10 +196,16 @@ export async function generateMetadata({ params: noAwait }: { params: Promise<{ 
   return {
     title: article.title,
     description: article.summary,
+    alternates: {
+      canonical: `${baseUrl}/posts/${article.slug}`,
+    },
     openGraph: {
       title: article.title,
       description: article.summary,
       images: [article.imageUrl],
+      type: 'article',
+      publishedTime: article.createdAt,
+      modifiedTime: article.updatedAt,
     },
   };
 }

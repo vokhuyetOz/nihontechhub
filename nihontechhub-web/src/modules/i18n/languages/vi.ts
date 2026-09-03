@@ -39,6 +39,7 @@ const VI = {
     return `Ảnh hưởng ${x}`;
   },
   AIAggregatedTechTimeline: 'Sự kiện công nghệ được AI tổng hợp',
+  AICuratedTechHighlights: 'Tin công nghệ nổi bật do AI chọn lọc',
   viewAllEvents: 'Xem tất cả sự kiện',
   AISynthesized: 'AI tổng hợp',
   AIAggregatedFrom: 'Tổng hợp từ',

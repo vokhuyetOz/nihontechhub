@@ -19,7 +19,7 @@ interface OptimizedImageProps {
 
 export function OptimizedImage({
   src,
-  alt = 'nihontechhub',
+  alt,
   width,
   height,
   fill = false,

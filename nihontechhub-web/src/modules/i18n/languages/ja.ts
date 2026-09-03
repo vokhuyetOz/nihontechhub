@@ -39,6 +39,7 @@ const JA = {
     return `影響 ${x}`;
   },
   AIAggregatedTechTimeline: '「AIがまとめたテクノロジー年表」',
+  AICuratedTechHighlights: 'AI厳選テクノロジーハイライト',
   viewAllEvents: 'すべてのイベントを見る',
   AISynthesized: 'AI要約',
   AIAggregatedFrom: 'AIまとめ',

@@ -79,7 +79,7 @@ export function FeaturedArticle() {
               </div>
             </div>
 
-            <h1 className="text-3xl font-bold leading-tight transition-colors duration-300 group-hover:text-primary lg:text-4xl xl:text-5xl">{article.title}</h1>
+            <h2 className="text-3xl font-bold leading-tight transition-colors duration-300 group-hover:text-primary lg:text-4xl xl:text-5xl">{article.title}</h2>
 
             <p className="text-lg leading-relaxed text-muted-foreground transition-colors duration-300 group-hover:text-foreground/80 lg:text-xl">{article.summary}</p>
 
@@ -88,7 +88,7 @@ export function FeaturedArticle() {
                 <div className="relative">
                   <OptimizedImage
                     src={article.author?.avatar}
-                    alt={article.author?.name}
+                    alt={article.author?.name || '著者'}
                     width={56}
                     height={56}
                     className="rounded-full ring-2 ring-transparent transition-all duration-300 group-hover:ring-primary/30"

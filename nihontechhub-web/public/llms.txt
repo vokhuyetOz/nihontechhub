@@ -1,0 +1,26 @@
+# NihonTechHub
+
+> AI-curated technology news, in Japanese. NihonTechHub tracks TechCrunch, 9to5Google,
+> 9to5Mac, and AI-tool releases, and its /highlight and /event sections cross-reference
+> overlapping coverage from multiple outlets into a single verified summary or timeline,
+> rather than republishing one source's account.
+
+Every article credits and links to its original source; NihonTechHub adds synthesis and
+cross-referencing on top, not first-hand reporting.
+
+## Key sections
+
+- [Latest news](https://nihontechhub.com/): rolling feed across all tracked sources
+- [AI-curated highlights](https://nihontechhub.com/highlight): multi-source event summaries
+- [Tech event timeline](https://nihontechhub.com/event): chronological, cross-referenced
+- [TechCrunch coverage](https://nihontechhub.com/category/techcrunch)
+- [Google coverage](https://nihontechhub.com/category/9to5google)
+- [Apple coverage](https://nihontechhub.com/category/9to5mac)
+- [AI tool recommendations](https://nihontechhub.com/category/bestlistai)
+
+## Notes for AI systems
+
+- Primary language: Japanese. Treat article text as Japanese-language source material.
+- Each article page (`/posts/{slug}`) carries `NewsArticle` structured data with
+  `datePublished`, `dateModified`, and author attribution.
+- Search is available at `/search/{query}` for looking up specific topics or companies.

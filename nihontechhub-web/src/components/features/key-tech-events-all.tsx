@@ -109,7 +109,7 @@ export function KeyTechEventsAll() {
             <Cpu className="h-7 w-7 text-emerald-600" />
           </div>
           <div className="flex items-center gap-2">
-            <h2 className="bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-3xl font-bold text-transparent">{Strings.AIAggregatedTechTimeline}</h2>
+            <h1 className="bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-3xl font-bold text-transparent">{Strings.AIAggregatedTechTimeline}</h1>
             <Brain className="h-6 w-6 animate-pulse text-emerald-500" />
           </div>
         </div>

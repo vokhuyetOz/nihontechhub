@@ -22,7 +22,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
         <div className="relative h-56 overflow-hidden bg-muted/20">
           <Image
             src={article.imageUrl || '/placeholder.svg?height=224&width=400'}
-            alt={article.slug}
+            alt={article.imageCaption || article.title}
             fill
             className="aspect-[16/9] object-cover transition-transform duration-500 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
@@ -54,7 +54,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
               <div className="relative">
                 <OptimizedImage
                   src={article.author?.avatar}
-                  alt={article.author?.name}
+                  alt={article.author?.name || '著者'}
                   width={28}
                   height={28}
                   className="rounded-full ring-2 ring-transparent transition-all duration-300 group-hover:ring-primary/20"

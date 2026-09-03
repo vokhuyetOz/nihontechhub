@@ -11,8 +11,10 @@ import { NewsAPI } from '@/modules/api/news';
 import { NewssourceAPI, TNewssource } from '@/modules/api/newssource';
 import { QUERY_KEYS } from '@/modules/queries';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import { Metadata } from 'next';
 
 export default async function HomePage() {
+  const locale = process.env.NEXT_PUBLIC_LANG ?? 'Ja';
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
@@ -46,6 +48,7 @@ export default async function HomePage() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
+      <h1 className="sr-only">{locale === 'Ja' ? 'NihonTechHub | 最新テクノロジーニュース' : 'NihonTechHub - Technology News & Insights'}</h1>
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
         <div className="space-y-12 lg:col-span-3">
           {/* Featured Article */}
@@ -67,4 +70,49 @@ export default async function HomePage() {
       </div>
     </HydrationBoundary>
   );
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = process.env.NEXT_PUBLIC_LANG ?? 'Ja';
+  const baseUrl = process.env.NEXT_PUBLIC_DOMAIN_URL ?? 'https://nihontechhub.com';
+  const siteName = process.env.NEXT_PUBLIC_SITE_NAME ?? 'nihontechhub';
+
+  if (locale === 'Ja') {
+    const titleJa = 'NihonTechHub | 最新テクノロジーニュース・AIキュレーション';
+    const descJa =
+      '最新のテクノロジーニュース、インサイト、トレンドをお届けする信頼の情報源。AIが世界中のテックニュースを横断的に分析し、厳選してお届けします。';
+    return {
+      title: titleJa,
+      description: descJa,
+      alternates: {
+        canonical: baseUrl,
+      },
+      openGraph: {
+        title: titleJa,
+        description: descJa,
+        url: baseUrl,
+        siteName,
+        locale,
+        type: 'website',
+      },
+    };
+  }
+
+  const titleEn = 'NihonTechHub - Technology News & Insights';
+  const descEn = 'Stay updated with the latest technology news, insights, and trends.';
+  return {
+    title: titleEn,
+    description: descEn,
+    alternates: {
+      canonical: baseUrl,
+    },
+    openGraph: {
+      title: titleEn,
+      description: descEn,
+      url: baseUrl,
+      siteName,
+      locale: 'en',
+      type: 'website',
+    },
+  };
 }

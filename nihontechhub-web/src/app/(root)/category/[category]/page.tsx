@@ -74,17 +74,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const baseUrl = process.env.NEXT_PUBLIC_DOMAIN_URL ?? 'https://nihontechhub.com';
   const siteName = process.env.NEXT_PUBLIC_SITE_NAME ?? 'nihontechhub';
   const { category } = await params;
+  const source = await NewssourceAPI.detail(category);
+  const categoryLabel = source?.label ?? category;
 
   if (locale === 'Ja') {
     return {
-      title: `${category} | ニュース一覧`,
-      description: `${category} の最新ニュースやテクノロジー情報をチェック`,
+      title: `${categoryLabel} | ニュース一覧`,
+      description: `${categoryLabel} の最新ニュースやテクノロジー情報をチェック`,
       alternates: {
         canonical: `${baseUrl}/category/${category}`,
       },
       openGraph: {
-        title: `${category} | ニュース一覧`,
-        description: `${category} の最新ニュースやテクノロジー情報をチェック`,
+        title: `${categoryLabel} | ニュース一覧`,
+        description: `${categoryLabel} の最新ニュースやテクノロジー情報をチェック`,
         siteName,
         locale, // dùng từ ENV
       },
@@ -92,8 +94,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   return {
-    title: `${category} News & Insights - TechSum`,
-    description: `Latest ${category} news, trends, and insights from the tech world.`,
+    title: `${categoryLabel} News & Insights - ${siteName}`,
+    description: `Latest ${categoryLabel} news, trends, and insights from the tech world.`,
     alternates: {
       canonical: `${baseUrl}/category/${category}`,
     },

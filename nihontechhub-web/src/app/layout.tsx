@@ -1,4 +1,5 @@
 import { AppFCM } from '@/components/custom';
+import OrganizationJsonLd from '@/components/custom/app-seo/organization-jsonld';
 import { Footer, Header } from '@/components/features';
 import { I18nProvider } from '@/modules/i18n';
 import { QueryProvider } from '@/modules/queries';
@@ -33,6 +34,7 @@ export default async function RootLayout({ children }: TComponentChildrenProps) 
         <meta name="yandex-verification" content="f6cd430b5c1c8a8a" />
         <meta name="referrer" content="no-referrer-when-downgrade" />
         <link rel="alternate" type="application/rss+xml" title="nihontechhub" href="https://api.nihontechhub.com/api/sitemap/rss.xml" />
+        <OrganizationJsonLd />
         <script
           data-cfasync="false"
           dangerouslySetInnerHTML={{
