@@ -5,10 +5,14 @@ const nextConfig: NextConfig = {
   output: 'standalone',
   devIndicators: false,
   images: {
-    // Article/avatar/highlight images are scraped from an effectively unbounded set of outlets
-    // (ESource sources each pull images off arbitrary third-party CDNs — e.g. bestlistai content
-    // has shown up on random *.cloudfront.net hosts — plus a hardcoded images.unsplash.com default
-    // avatar), so a hostname allowlist isn't viable; allow every host instead.
+    // Article/avatar images are scraped from an effectively unbounded set of outlets (ESource
+    // sources each pull images off arbitrary third-party CDNs — e.g. bestlistai content has shown
+    // up on random *.cloudfront.net hosts — plus a hardcoded images.unsplash.com default avatar),
+    // so a hostname allowlist isn't viable; allow every host instead. Highlight-section images stay
+    // `unoptimized` regardless (see top-highlights.tsx / top-highlights-all.tsx): they're aggregated
+    // from an even larger, less reliable pool of syndicated outlets (e.g. mezha.net), and routing
+    // them through Next's server-side image optimizer means a slow/unreachable upstream times out
+    // and breaks the image for everyone instead of just failing in that one visitor's browser.
     remotePatterns: [
       { protocol: 'https', hostname: '**' },
       { protocol: 'http', hostname: '**' },

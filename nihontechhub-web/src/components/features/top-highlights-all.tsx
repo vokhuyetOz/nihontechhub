@@ -108,6 +108,7 @@ export function TopHighlightsAll() {
                     src={imageUrl || '/placeholder.svg'}
                     alt={highlight.title}
                     fill
+                    unoptimized
                     sizes="(max-width: 640px) 100vw, 192px"
                     className="object-cover"
                   />
