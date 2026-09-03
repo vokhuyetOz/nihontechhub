@@ -4,6 +4,8 @@
 
 > AIがキュレーションするテクノロジーニュースプラットフォーム。NihonTechHubはTechCrunch、9to5Mac、9to5Google、BestList.aiをクロールしてAI要約を生成し、関連記事を横断的に統合した「ハイライト」を作成、業界の主要な出来事をタイムラインで追跡します。これらすべてをWebアプリ、iOS/Androidモバイルアプリ、検索APIを通じて提供します。
 
+**公開中**: [nihontechhub.com](https://nihontechhub.com) · [App Store](https://apps.apple.com/us/app/nihontechhub/id6755095185) · [Google Play](https://play.google.com/store/apps/details?id=com.nihontechhub)
+
 ## 目次
 
 - [アーキテクチャ](#アーキテクチャ)

@@ -4,6 +4,8 @@
 
 > An AI-curated technology news platform. NihonTechHub crawls TechCrunch, 9to5Mac, 9to5Google and BestList.ai, generates AI summaries, cross-references related coverage into curated "Highlights", tracks major industry moments on an event timeline, and delivers all of it through a Web app, an iOS/Android mobile app, and a search API.
 
+**Live**: [nihontechhub.com](https://nihontechhub.com) · [App Store](https://apps.apple.com/us/app/nihontechhub/id6755095185) · [Google Play](https://play.google.com/store/apps/details?id=com.nihontechhub)
+
 ## Table of Contents
 
 - [Architecture](#architecture)
